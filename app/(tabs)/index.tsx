@@ -1,22 +1,13 @@
-import { useClerk } from "@clerk/clerk-expo";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useAuth } from "@clerk/clerk-expo";
 
-export default function FeedScreen() {
-  const { signOut } = useClerk();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error("Sign out failed", error);
-    }
-  };
-
+export default function HomeScreen() {
+  const { signOut } = useAuth();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Feed screen</Text>
-      <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-        <Text style={styles.buttonText}>Sign Out</Text>
+      <Text style={styles.title}>Feed</Text>
+      <TouchableOpacity style={styles.button} onPress={() => signOut()}>
+        <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
     </View>
   );
