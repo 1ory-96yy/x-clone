@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import { styles } from "@/styles/create.styles";
 
 export default function CreateScreen() {
   return (
@@ -7,16 +8,3 @@ export default function CreateScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    color: "#fff",
-    fontSize: 24,
-  },
-});
