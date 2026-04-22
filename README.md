@@ -1,50 +1,49 @@
-# Welcome to your Expo app 👋
+# X-clone
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**X-clone** — це клон-додаток соціальної мережі X (колись Twitter). Проект створено для практики розробки мобільного додатку на базі **Expo**, з реалізацією інтерфейсу, навігації та бекенду через **Convex**.
 
-## Get started
+## Команда та внесок
+### 30.03.2026
+* **Дьомін Семен (Team Leader)** – створив проект, зробив merge всіх гілок, додав redirect на індекс, контролював процес розробки.
+* **Васильківський Артур (Auth & UI Developer)** – працював над користувацьким інтерфейсом: додав ілюстрацію, функціонал виходу (Sign Out), трохи попрацював зі стилями, покращив UI.
+* **Білоцерковський Дмитро (UI Developer)** – розпочав роботу над інтерфейсом, створював основу, але через від’їзд брав участь частково.
+* **Волянський Нікіта (Backend Developer)** – займався бекендом: додав **Convex**, налаштовував логіку роботи з даними.
 
-1. Install dependencies
+### 06.04.2026
+* **Дьомін Семен (Team Leader)** – створив `providers/ClerkAndConvexProvider.tsx` та зробив рефактеринг `app/_layout.tsx`.
+* **Васильківський Артур (UI Developer)** – оновив трохи `app/(tabs)/index.tsx` 
+* **Білоцерковський Дмитро (Schema Developer)** – створив `convex/schema.ts` зі всіма таблицями, визначив поля та типи та додав індекси для пошуку
+* **Волянський Нікіта (Backend Developer)** – створив `convex/users.ts` з mutation `createUser`, `convex/http.ts` для обробки Clerk Webhooks. Також налаштовує Webhook в Clerk Dashboard та додав `CLERK_WEBHOOK_SECRET` в Convex
 
-   ```bash
-   npm install
-   ```
+### 15.04.2026
+* **Дьомін Семен (Team Lead / Backend Developer)** – створив `convex/posts.ts`, реалізував mutations `generateUploadUrl` та `createPost`, додав перевірку автентифікації та оновлення лічильника постів користувача.
+* **Волянський Нікіта (Dependencies Developer)** – встановив та налаштував залежності `expo-image-picker`, `expo-file-system`, `expo-image`, перевірив коректність імпортів.
+* **Білоцерковський Дмитро (UI Developer)** – реалізував `app/(tabs)/create.tsx`, додав функції `pickImage` та `handleShare`, налаштував логіку створення посту та відображення станів.
+* **Васильківський Артур (Styles Developer)** – створив `styles/create.styles.ts`, додав стилі для header, image section, input section та кнопок.
 
-2. Start the app
+## Технології
 
-   ```bash
-   npx expo start
-   ```
+* **Expo** та **React Native** – для мобільного додатку.
+* **TypeScript** – мова проєкту.
+* **Convex** – бекенд та база даних у реальному часі.
+* **Clerk** – аутентифікація користувачів.
 
-In the output, you'll find options to open the app in a
+## Структура проєкту
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+* `app/` – основний код додатку та екрани.
+* `components/` – UI-компоненти.
+* `assets/images/` – зображення та ілюстрації.
+* `styles/` – стилі додатку.
+* `constants/` – константи проєкту.
+* `convex/` – бекенд та функції Convex.
+* `providers/` - провайдер ClerkAndConvexProvider
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Встановлення та запуск
 
 ```bash
-npm run reset-project
+# Встановити залежності
+npm install
+
+# Запустити проєкт
+npx expo start
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

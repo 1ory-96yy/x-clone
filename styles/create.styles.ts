@@ -1,11 +1,9 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { COLORS } from "@/constants/theme";
 
-// Отримуємо ширину екрану для квадратного зображення
 const { width } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
-  // ========== КОНТЕЙНЕРИ ==========
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
@@ -23,7 +21,6 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
   },
 
-  // ========== HEADER ==========
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -39,7 +36,6 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
   },
 
-  // ========== КНОПКА SHARE ==========
   shareButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -59,7 +55,6 @@ export const styles = StyleSheet.create({
     color: COLORS.grey,
   },
 
-  // ========== СТАН БЕЗ ЗОБРАЖЕННЯ ==========
   emptyImageContainer: {
     flex: 1,
     justifyContent: "center",
@@ -71,7 +66,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // ========== СЕКЦІЯ ЗОБРАЖЕННЯ ==========
   imageSection: {
     width: width,
     height: width,
@@ -100,7 +94,6 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
   },
 
-  // ========== СЕКЦІЯ ВВОДУ ==========
   inputSection: {
     padding: 16,
     flex: 1,
