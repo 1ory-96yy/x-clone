@@ -5,6 +5,8 @@ import { formatDistanceToNow } from "date-fns";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useState } from "react";
+import CommentsModal from "./CommentsModal";
 
 type PostProps = {
   post: {
@@ -24,11 +26,13 @@ type PostProps = {
 export default function Post({ post }: PostProps) {
   const toggleLike = useMutation(api.posts.toggleLike);
 
+  const [openComments, setOpenComments] = useState(false);
+
   const handleLike = async () => {
     try {
       await toggleLike({ postId: post._id });
     } catch (error) {
-      console.log("Like error", error);
+      console.log("Like error:", error);
     }
   };
 
@@ -64,6 +68,13 @@ export default function Post({ post }: PostProps) {
             color={post.isLiked ? "red" : "black"}
           />
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setOpenComments(true)}
+          style={{ marginLeft: 15 }}
+        >
+          <Ionicons name="chatbubble-outline" size={24} />
+        </TouchableOpacity>
       </View>
 
       <View style={{ paddingHorizontal: 10 }}>
@@ -86,6 +97,12 @@ export default function Post({ post }: PostProps) {
           })}
         </Text>
       </View>
+
+      <CommentsModal
+        visible={openComments}
+        onClose={() => setOpenComments(false)}
+        postId={post._id}
+      />
     </View>
   );
 }
