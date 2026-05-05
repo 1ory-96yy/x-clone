@@ -38,7 +38,6 @@ export default function CommentsModal({
 
     try {
       await addComment({
-        userId: user.id as Id<"users">,
         postId,
         content: trimmed,
       });

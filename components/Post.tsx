@@ -16,6 +16,7 @@ type PostProps = {
     likes: number;
     createdAt: number;
     isLiked: boolean;
+    isBookmarked?: boolean;
     author: {
       username: string;
       image: string;
@@ -25,14 +26,27 @@ type PostProps = {
 
 export default function Post({ post }: PostProps) {
   const toggleLike = useMutation(api.posts.toggleLike);
+  const toggleBookmark = useMutation(api.bookmarks.toggleBookmark);
 
   const [openComments, setOpenComments] = useState(false);
+  const [localBookmark, setLocalBookmark] = useState(
+    post.isBookmarked ?? false
+  );
 
   const handleLike = async () => {
     try {
       await toggleLike({ postId: post._id });
     } catch (error) {
       console.log("Like error:", error);
+    }
+  };
+
+  const handleBookmark = async () => {
+    try {
+      const result = await toggleBookmark({ postId: post._id });
+      setLocalBookmark(result);
+    } catch (error) {
+      console.log("Bookmark error:", error);
     }
   };
 
@@ -60,20 +74,35 @@ export default function Post({ post }: PostProps) {
         contentFit="cover"
       />
 
-      <View style={{ flexDirection: "row", padding: 10 }}>
-        <TouchableOpacity onPress={handleLike}>
-          <Ionicons
-            name={post.isLiked ? "heart" : "heart-outline"}
-            size={26}
-            color={post.isLiked ? "red" : "black"}
-          />
-        </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          padding: 10,
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={handleLike}>
+            <Ionicons
+              name={post.isLiked ? "heart" : "heart-outline"}
+              size={26}
+              color={post.isLiked ? "red" : "black"}
+            />
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => setOpenComments(true)}
-          style={{ marginLeft: 15 }}
-        >
-          <Ionicons name="chatbubble-outline" size={24} />
+          <TouchableOpacity
+            onPress={() => setOpenComments(true)}
+            style={{ marginLeft: 15 }}
+          >
+            <Ionicons name="chatbubble-outline" size={24} />
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity onPress={handleBookmark}>
+          <Ionicons
+            name={localBookmark ? "bookmark" : "bookmark-outline"}
+            size={26}
+          />
         </TouchableOpacity>
       </View>
 
