@@ -1,5 +1,5 @@
+import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 import { v } from "convex/values";
-import { QueryCtx, MutationCtx, mutation, query } from "./_generated/server";
 
 export const getAuthenticatedUser = async (ctx: QueryCtx | MutationCtx) => {
   const identity = await ctx.auth.getUserIdentity();
@@ -38,7 +38,6 @@ export const createUser = mutation({
     clerkId: v.string(),
   },
   handler: async (ctx, args) => {
-    // Перевірка чи користувач вже існує
     const existingUser = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
@@ -46,7 +45,6 @@ export const createUser = mutation({
 
     if (existingUser) return;
 
-    // Створення нового користувача
     await ctx.db.insert("users", {
       username: args.username,
       fullname: args.fullname,
@@ -59,5 +57,31 @@ export const createUser = mutation({
       posts: 0,
       createdAt: Date.now()
     });
+  },
+});
+
+export const getAuthenticatedUser = async(ctx: QueryCtx | MutationCtx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+ 
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+    if (!currentUser) throw new Error("User not found");
+    return currentUser;
+}
+
+export const getUserByClerkId = query({
+  args: {
+    clerkId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .unique();
+
+    return user;
   },
 });
