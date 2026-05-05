@@ -94,6 +94,8 @@ export const deletePost = mutation({
     await ctx.db.patch(currentUser._id, {
       posts: Math.max(0, (currentUser.posts || 1) - 1),
     });
+  }
+});
 
 export const getPosts = query({
   handler: async (ctx) => {
