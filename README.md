@@ -15,6 +15,12 @@
 * **Білоцерковський Дмитро (Schema Developer)** – створив `convex/schema.ts` зі всіма таблицями, визначив поля та типи та додав індекси для пошуку
 * **Волянський Нікіта (Backend Developer)** – створив `convex/users.ts` з mutation `createUser`, `convex/http.ts` для обробки Clerk Webhooks. Також налаштовує Webhook в Clerk Dashboard та додав `CLERK_WEBHOOK_SECRET` в Convex
 
+### 15.04.2026
+* **Дьомін Семен (Team Lead / Backend Developer)** – створив `convex/posts.ts`, реалізував mutations `generateUploadUrl` та `createPost`, додав перевірку автентифікації та оновлення лічильника постів користувача.
+* **Волянський Нікіта (Dependencies Developer)** – встановив та налаштував залежності `expo-image-picker`, `expo-file-system`, `expo-image`, перевірив коректність імпортів.
+* **Білоцерковський Дмитро (UI Developer)** – реалізував `app/(tabs)/create.tsx`, додав функції `pickImage` та `handleShare`, налаштував логіку створення посту та відображення станів.
+* **Васильківський Артур (Styles Developer)** – створив `styles/create.styles.ts`, додав стилі для header, image section, input section та кнопок.
+
 ## Технології
 
 * **Expo** та **React Native** – для мобільного додатку.
