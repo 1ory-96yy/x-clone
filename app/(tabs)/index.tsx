@@ -6,66 +6,39 @@ import {
   FlatList,
 } from "react-native";
 import { useAuth } from "@clerk/clerk-expo";
-
-const feedData = [
-  {
-    id: "1",
-    title: "New build ready",
-    subtitle: "Review the latest app shell and layout changes.",
-  },
-  {
-    id: "2",
-    title: "Font assets loaded",
-    subtitle: "SpaceMono and JetBrainsMono are now available.",
-  },
-  {
-    id: "3",
-    title: "FlatList screen",
-    subtitle: "Developer feed is rendered using FlatList.",
-  },
-  {
-    id: "4",
-    title: "Clerk auth active",
-    subtitle: "Sign out is still available from the header.",
-  },
-];
-
-function FeedItem({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <View style={styles.item}>
-      <Text style={styles.itemTitle}>{title}</Text>
-      <Text style={styles.itemSubtitle}>{subtitle}</Text>
-    </View>
-  );
-}
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import Post from "../../components/Post";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
+  const posts = useQuery(api.posts.getPosts);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>Developer Feed</Text>
-          <Text style={styles.subtitle}>
-            Live updates from the UI screen lesson
-          </Text>
+          <Text style={styles.subtitle}>Latest posts from the community</Text>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => signOut()}>
           <Text style={styles.buttonText}>Sign out</Text>
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={feedData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <FeedItem title={item.title} subtitle={item.subtitle} />
-        )}
-        contentContainerStyle={styles.listContent}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        showsVerticalScrollIndicator={false}
-      />
+      {posts === undefined ? (
+        <Text style={styles.message}>Loading posts...</Text>
+      ) : posts.length === 0 ? (
+        <Text style={styles.message}>No posts yet. Create the first one!</Text>
+      ) : (
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => item._id.toString()}
+          renderItem={({ item }) => <Post post={item} />}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 }
@@ -108,24 +81,10 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: 24,
   },
-  item: {
-    backgroundColor: "#111827",
-    borderRadius: 16,
-    padding: 18,
-  },
-  itemTitle: {
-    fontSize: 18,
-    color: "#fff",
-    fontFamily: "JetBrainsMono-Medium",
-    marginBottom: 6,
-  },
-  itemSubtitle: {
-    color: "#9ca3af",
-    fontSize: 14,
-    lineHeight: 20,
-    fontFamily: "SpaceMono-Regular",
-  },
-  separator: {
-    height: 12,
+  message: {
+    color: "#d1d5db",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 40,
   },
 });
