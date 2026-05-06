@@ -42,6 +42,15 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
+        name="bookmarks"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="bookmark-border" color={color} size={size} />
+          ),
+          title: "Bookmarks",
+        }}
+      />
+      <Tabs.Screen
         name="notifications"
         options={{
           tabBarIcon: ({ color, size }) => (
