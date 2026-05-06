@@ -21,6 +21,12 @@
 * **Білоцерковський Дмитро (UI Developer)** – реалізував `app/(tabs)/create.tsx`, додав функції `pickImage` та `handleShare`, налаштував логіку створення посту та відображення станів.
 * **Васильківський Артур (Styles Developer)** – створив `styles/create.styles.ts`, додав стилі для header, image section, input section та кнопок.
 
+* ### 05.05.2026
+* **Дьомін Семен (Team Lead / Backend Developer)** – додав `getPosts` query до `convex/posts.ts`, `getAuthenticatedUser` в `convex/users.ts`, `toggleLike` в `convex/posts.ts`, створив `convex/comments.ts`, реалізув `addComment` mutation та `getComments` query
+* **Волянський Нікіта (Second Backend Developper)** – створив `convex/bookmarks.ts`, реалізував `toggleBookmark` mutation та `getBookmarkedPosts` query, додав індекси в schema.ts. Також додав `deletePost` mutation в `convex/posts.ts`, `getUserByClerkId` query в `convex/users.ts` та індекс `by_post` для likes
+* **Білоцерковський Дмитро (UI Components Developer)** – створив `constants/mock-data.ts`, `components/Story.tsx`, `components/Post.tsx`, `components/Loader.tsx`, `components/StoriesSection.tsx`
+* **Васильківський Артур (Styles Developer & UI Screen Developer)** – створив `styles/feed.styles.ts` та  оновив `app/(tabs)/index.tsx` з FlatList
+  
 ## Технології
 
 * **Expo** та **React Native** – для мобільного додатку.
