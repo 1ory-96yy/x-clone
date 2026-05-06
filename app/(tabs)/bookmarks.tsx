@@ -15,7 +15,7 @@ type BookmarkedPost = {
 export default function BookmarksScreen() {
   const { isAuthenticated } = useConvexAuth();
   const bookmarkedPosts = useQuery(
-    isAuthenticated ? api.bookmarks.getBookmarkedPosts : "skip",
+    isAuthenticated ? api.bookmarks.getBookmarkedPosts : (null as any),
   );
 
   const renderPost = ({ item }: { item: BookmarkedPost }) => (
