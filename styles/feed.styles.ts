@@ -137,4 +137,53 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
   },
+  // BOOKMARKS
+  bookmarksHeader: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  bookmarksTitle: {
+    fontSize: 28,
+    color: COLORS.white,
+    fontFamily: "JetBrainsMono-Medium",
+  },
+  bookmarksGridContainer: {
+    paddingHorizontal: 1,
+    paddingTop: 10,
+  },
+  bookmarkPostContainer: {
+    width: width / 3 - 2,
+    height: width / 3 - 2,
+    margin: 1,
+  },
+  bookmarkPostImage: {
+    width: "100%",
+    height: "100%",
+  },
+  bookmarkMessage: {
+    color: "#d1d5db",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 40,
+  },
+  bookmarkEmptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 40,
+  },
+  bookmarkEmptyTitle: {
+    fontSize: 24,
+    color: COLORS.white,
+    fontFamily: "JetBrainsMono-Medium",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  bookmarkEmptySubtitle: {
+    fontSize: 16,
+    color: "#d1d5db",
+    textAlign: "center",
+    fontFamily: "SpaceMono-Regular",
+  },
 });
