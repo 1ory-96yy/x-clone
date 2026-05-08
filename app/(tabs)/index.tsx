@@ -13,16 +13,10 @@ import { Redirect } from "expo-router";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  const { isAuthenticated } = useConvexAuth();
   const posts = useQuery(api.posts.getPosts);
 
-  if (isLoading) {
-    return (
-      <View style={styles.message}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  
 
   if (!isAuthenticated) {
     return <Redirect href={"/(auth)/login"} />;
