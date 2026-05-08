@@ -21,6 +21,10 @@ export default function ScreenNotifications() {
       return <NoNotificationsFound/>;
     }
 
+    if (!isAuthenticated) {
+      return <NoNotificationsFound/>;
+    }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>

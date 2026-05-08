@@ -4,6 +4,7 @@ import { useConvexAuth, useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import { styles } from "@/styles/feed.styles";
+import { NoBookmarksFound } from "@/components/NoBookmarksFound";
 
 type BookmarkedPost = {
   _id: string;
@@ -28,13 +29,7 @@ export default function BookmarksScreen() {
   );
 
   if (!isAuthenticated) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.bookmarkMessage}>
-          Please sign in to view your bookmarks
-        </Text>
-      </View>
-    );
+    return <NoBookmarksFound/>;
   }
 
   if (bookmarkedPosts === undefined) {
@@ -46,17 +41,7 @@ export default function BookmarksScreen() {
   }
 
   if (bookmarkedPosts.length === 0) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.bookmarkEmptyContainer}>
-          <Text style={styles.bookmarkEmptyTitle}>No bookmarks yet</Text>
-
-          <Text style={styles.bookmarkEmptySubtitle}>
-            Save posts you want to revisit later
-          </Text>
-        </View>
-      </View>
-    );
+    return <NoBookmarksFound/>;
   }
 
   return (
