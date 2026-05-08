@@ -17,6 +17,9 @@ export const getNotifications = query({
     return await Promise.all(
       notifications.map(async (notification) => {
         const sender = await ctx.db.get(notification.senderId);
+        if (!sender) {
+          throw new Error("Sender not found");
+        }
 
         const post = notification.postId
           ? await ctx.db.get(notification.postId)
@@ -29,15 +32,16 @@ export const getNotifications = query({
 
         return {
           ...notification,
-          sender: sender
-            ? {
+          sender: {
                 _id: sender._id,
                 username: sender.username,
                 image: sender.image,
-              }
-            : null,
-          post,
-          comment: comment?.content ?? null,
+              },
+          post: post 
+          ? {
+            imageUrl: post.imageUrl
+          } : null,
+          comment: comment?.content ?? undefined,
         };
       }),
     );
