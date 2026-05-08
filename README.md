@@ -26,7 +26,13 @@
 * **Волянський Нікіта (Second Backend Developper)** – створив `convex/bookmarks.ts`, реалізував `toggleBookmark` mutation та `getBookmarkedPosts` query, додав індекси в schema.ts. Також додав `deletePost` mutation в `convex/posts.ts`, `getUserByClerkId` query в `convex/users.ts` та індекс `by_post` для likes
 * **Білоцерковський Дмитро (UI Components Developer)** – створив `constants/mock-data.ts`, `components/Story.tsx`, `components/Post.tsx`, `components/Loader.tsx`, `components/StoriesSection.tsx`
 * **Васильківський Артур (Styles Developer & UI Screen Developer)** – створив `styles/feed.styles.ts` та  оновив `app/(tabs)/index.tsx` з FlatList
-  
+
+### 08.05.2026
+* **Дьомін Семен (Team Lead / Backend Developer)** – сворив `convex/notifications.ts`, реалізував `getNotifications` query, додав індекс `by_post` для notifications в schema.ts та оновлив `deletePost` для видалення notifications, додав `useConvexAuth` для перевірки автентифікації
+* **Волянський Нікіта (Dependencies Developer)** – реалізував сторінку `app/(tabs)/notifications.tsx` компоненти `NotificationItem` з icon badge та `NoNotificationsFound`
+* **Білоцерковський Дмитро (UI Developer)** - створив `styles/notifications.styles.ts`
+* **Васильківський Артур (Styles Developer)** – реалізував сторінку `app/(tabs)/bookmarks.tsx`, Grid layout для відображення постів, компонент `NoBookmarksFound` та перевірку автентифікації.
+
 ## Технології
 
 * **Expo** та **React Native** – для мобільного додатку.
