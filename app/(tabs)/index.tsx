@@ -6,13 +6,28 @@ import {
   FlatList,
 } from "react-native";
 import { useAuth } from "@clerk/clerk-expo";
-import { useQuery } from "convex/react";
+import { useQuery, useConvexAuth } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Post from "../../components/Post";
+import { Redirect } from "expo-router";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
+  const { isAuthenticated, isLoading } = useConvexAuth();
   const posts = useQuery(api.posts.getPosts);
+
+  if (isLoading) {
+    return (
+      <View style={styles.message}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href={"/(auth)/login"} />;
+  }
+
 
   return (
     <View style={styles.container}>
