@@ -3,12 +3,15 @@ import { Dimensions, StyleSheet } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
+
 export const styles = StyleSheet.create({
+  // ==================== CONTAINER ====================
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
 
+  // ==================== HEADER ====================
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -40,6 +43,7 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
   },
 
+  // ==================== PROFILE INFO ====================
   profileInfo: {
     padding: 16,
   },
@@ -59,6 +63,7 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.surface,
   },
 
+  // ==================== STATS ====================
   statsContainer: {
     flex: 1,
     flexDirection: "row",
@@ -78,6 +83,7 @@ export const styles = StyleSheet.create({
     color: COLORS.grey,
   },
 
+  // ==================== NAME & BIO ====================
   name: {
     fontSize: 15,
     fontWeight: "600",
@@ -90,6 +96,7 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
+  // ==================== ACTION BUTTONS ====================
   actionButtons: {
     flexDirection: "row",
     gap: 8,
@@ -116,6 +123,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  // ==================== FOLLOW BUTTONS ====================
   followButton: {
     backgroundColor: COLORS.primary,
     paddingHorizontal: 24,
@@ -139,6 +147,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  // ==================== POSTS GRID ====================
   postsGrid: {
     flex: 1,
     flexDirection: "row",
@@ -154,6 +163,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
+  // ==================== NO POSTS ====================
   noPostsContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -166,6 +176,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  // ==================== EDIT PROFILE MODAL ====================
   modalContainer: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -190,6 +201,7 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
+  // ==================== INPUT ====================
   inputContainer: {
     marginBottom: 20,
   },
@@ -210,6 +222,7 @@ export const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
 
+  // ==================== SAVE BUTTON ====================
   saveButton: {
     backgroundColor: COLORS.primary,
     padding: 16,
@@ -223,6 +236,7 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
+  // ==================== POST DETAIL MODAL ====================
   modalBackdrop: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.9)",
@@ -245,6 +259,7 @@ export const styles = StyleSheet.create({
     height: width,
   },
 
+  // ==================== CENTERED ====================
   centered: {
     flex: 1,
     justifyContent: "center",
