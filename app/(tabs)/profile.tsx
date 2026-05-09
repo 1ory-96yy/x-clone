@@ -7,7 +7,7 @@ import {
   Modal,
   TextInput,
   KeyboardAvoidingView,
-  Platform
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
 import { useAuth } from "@clerk/clerk-expo";
@@ -37,20 +37,18 @@ function NoPostsFound() {
 }
 
 export default function ProfileScreen() {
-
   const { signOut, userId } = useAuth();
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Doc<"posts"> | null>(null);
 
   const currentUser = useQuery(
     api.users.getUserByClerkId,
-    userId ? { clerkId: userId } : "skip"
+    userId ? { clerkId: userId } : "skip",
   );
 
   const posts = useQuery(api.posts.getPostsByUser, {});
 
   const updateProfile = useMutation(api.users.updateProfile);
-  
 
   const [editedProfile, setEditedProfile] = useState({
     fullname: currentUser?.fullname || "",
@@ -66,6 +64,16 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <Text style={styles.username}>{currentUser.username}</Text>
+        </View>
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.headerIcon} onPress={() => signOut()}>
+            <Ionicons name="log-out-outline" size={24} color={COLORS.white} />
+          </TouchableOpacity>
+        </View>
+      </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.profileInfo}>
@@ -112,7 +120,6 @@ export default function ProfileScreen() {
             <TouchableOpacity style={styles.shareButton}>
               <Ionicons name="share-outline" size={20} color={COLORS.white} />
             </TouchableOpacity>
-          
           </View>
         </View>
 
@@ -138,7 +145,6 @@ export default function ProfileScreen() {
           )}
           keyExtractor={(item) => item._id}
         />
-        
       </ScrollView>
 
       {/* SELECTED IMAGE MODAL */}
