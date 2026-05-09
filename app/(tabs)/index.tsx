@@ -9,7 +9,6 @@ import { useAuth } from "@clerk/clerk-expo";
 import { useQuery, useConvexAuth } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Post from "../../components/Post";
-import { Redirect } from "expo-router";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
