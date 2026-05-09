@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import { styles } from "@/styles/notification.styles";
+import { styles } from "@/styles/notifications.styles";
 import { useConvexAuth, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Loader } from "@/components/Loader";

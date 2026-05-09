@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants/theme";
-import { styles } from "@/styles/notification.styles";
+import { styles } from "@/styles/notifications.styles";
 
  
 export function NoNotificationsFound() {

@@ -1,95 +1,103 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "@/constants/theme";
-
+ 
 export const styles = StyleSheet.create({
+  // Контейнер
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
-
+ 
+  // Header
   header: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: COLORS.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.surfaceLight,
+    borderBottomWidth: 0.5,
+    borderBottomColor: COLORS.surface,
   },
-
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: COLORS.white,
+    fontSize: 24,
+    fontFamily: "JetBrainsMono-Medium",
+    color: COLORS.primary,
   },
-
-  list: {
-    paddingVertical: 10,
+ 
+  // List
+  listContainer: {
+    padding: 16,
   },
-
+ 
+  // Notification Item
   notificationItem: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: 14,
-    backgroundColor: COLORS.surface,
-    marginBottom: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.surfaceLight,
+    marginBottom: 20,
   },
-
-  avatar: {
-    width: 45,
-    height: 45,
-    borderRadius: 22,
+  notificationContent: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: 12,
   },
-
-  content: {
+ 
+  // Avatar
+  avatarContainer: {
+    position: "relative",
+    marginRight: 12,
+  },
+  avatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    borderWidth: 2,
+    borderColor: COLORS.surface,
+  },
+ 
+  // Icon Badge
+  iconBadge: {
+    position: "absolute",
+    bottom: -4,
+    right: -4,
+    backgroundColor: COLORS.background,
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: COLORS.surface,
+  },
+ 
+  // Notification Info
+  notificationInfo: {
     flex: 1,
   },
-
-  text: {
+  username: {
     color: COLORS.white,
     fontSize: 14,
-  },
-
-  username: {
-    fontWeight: "bold",
-    color: COLORS.white,
-  },
-
-  time: {
-    fontSize: 12,
-    color: COLORS.grey,
-    marginTop: 4,
-  },
-
-  rightImage: {
-    width: 45,
-    height: 45,
-    borderRadius: 6,
-    marginLeft: 10,
-  },
-
-  followButton: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 6,
-    backgroundColor: COLORS.primary,
-  },
-
-  followText: {
-    color: "#fff",
     fontWeight: "600",
-    fontSize: 13,
+    marginBottom: 2,
   },
-
-  emptyContainer: {
-    flex: 1,
+  action: {
+    color: COLORS.grey,
+    fontSize: 14,
+    marginBottom: 2,
+  },
+  timeAgo: {
+    color: COLORS.grey,
+    fontSize: 12,
+  },
+ 
+  // Post Image
+  postImage: {
+    width: 44,
+    height: 44,
+    borderRadius: 6,
+  },
+ 
+  // Centered (for empty state)
+  centered: {
     justifyContent: "center",
     alignItems: "center",
-  },
-
-  emptyText: {
-    color: COLORS.grey,
-    fontSize: 16,
   },
 });

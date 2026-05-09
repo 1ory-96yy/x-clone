@@ -2,7 +2,7 @@ import { View, TouchableOpacity, Text } from "react-native";
 import { Id } from "@/convex/_generated/dataModel";
 import { Link } from "expo-router";
 import { Image } from "expo-image";
-import { styles } from "@/styles/notification.styles";
+import { styles } from "@/styles/notifications.styles";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants/theme";
 import { formatDistanceToNow } from "date-fns";
