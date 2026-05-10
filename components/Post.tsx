@@ -2,11 +2,13 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { formatDistanceToNow } from "date-fns";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useState } from "react";
 import CommentsModal from "./CommentsModal";
+import { Link } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 
 type PostProps = {
   post: {
@@ -18,6 +20,7 @@ type PostProps = {
     isLiked: boolean;
     isBookmarked?: boolean;
     author: {
+      _id: string
       username: string;
       image: string;
     };
@@ -31,6 +34,13 @@ export default function Post({ post }: PostProps) {
   const [openComments, setOpenComments] = useState(false);
   const [localBookmark, setLocalBookmark] = useState(
     post.isBookmarked ?? false
+  );
+
+  // Current user
+  const { user } = useUser();
+  const currentUser = useQuery(
+    api.users.getUserByClerkId,
+    user ? { clerkId: user.id } : "skip"
   );
 
   const handleLike = async () => {
@@ -59,13 +69,20 @@ export default function Post({ post }: PostProps) {
           padding: 10,
         }}
       >
-        <Image
-          source={post.author.image}
-          style={{ width: 40, height: 40, borderRadius: 20 }}
-        />
-        <Text style={{ marginLeft: 10, fontWeight: "bold" }}>
-          {post.author.username}
-        </Text>
+        <Link href={
+                currentUser?._id === post.author._id
+                  ? "/(tabs)/profile"
+                  : `/user/${post.author._id}`
+              }
+              >
+          <Image
+            source={post.author.image}
+            style={{ width: 40, height: 40, borderRadius: 20 }}
+          />
+          <Text style={{ marginLeft: 10, fontWeight: "bold" }}>
+            {post.author.username}
+          </Text>
+        </Link>
       </View>
 
       <Image
