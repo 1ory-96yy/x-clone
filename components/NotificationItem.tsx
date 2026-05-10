@@ -32,21 +32,23 @@ export function NotificationItem({ notification }: NotificationProps) {
         {/* Avatar with Icon Badge */}
         <Link href={`/notifications`}>
           <TouchableOpacity style={styles.avatarContainer}>
-            <Image
-              source={notification.sender.image}
-              style={styles.avatar}
-              contentFit="cover"
-              transition={200}
-            />
-            <View style={styles.iconBadge}>
-              {notification.type === "like" ? (
-                <Ionicons name="heart" size={14} color={COLORS.primary} />
-              ) : notification.type === "follow" ? (
-                <Ionicons name="person-add" size={14} color="#8B5CF6" />
-              ) : (
-                <Ionicons name="chatbubble" size={14} color="#3B82F6" />
-              )}
-            </View>
+            <Link href={`/user/${notification.sender._id.toString()}`}>
+              <Image
+                source={notification.sender.image}
+                style={styles.avatar}
+                contentFit="cover"
+                transition={200}
+              />
+              <View style={styles.iconBadge}>
+                {notification.type === "like" ? (
+                  <Ionicons name="heart" size={14} color={COLORS.primary} />
+                ) : notification.type === "follow" ? (
+                  <Ionicons name="person-add" size={14} color="#8B5CF6" />
+                ) : (
+                  <Ionicons name="chatbubble" size={14} color="#3B82F6" />
+                )}
+              </View>
+            </Link>
           </TouchableOpacity>
         </Link>
  
