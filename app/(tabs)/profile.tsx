@@ -13,10 +13,15 @@ import { Image } from "expo-image";
 import { useAuth } from "@clerk/clerk-expo";
 import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
+import { useRouter } from "expo-router";
+
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
+
 import { Loader } from "@/components/Loader";
+
 import { Ionicons } from "@expo/vector-icons";
+
 import { COLORS } from "@/constants/theme";
 import { styles } from "@/styles/profile.styles";
 
@@ -31,15 +36,29 @@ function NoPostsFound() {
       }}
     >
       <Ionicons name="images-outline" size={48} color={COLORS.primary} />
-      <Text style={{ fontSize: 20, color: COLORS.white }}>No posts yet</Text>
+
+      <Text
+        style={{
+          fontSize: 20,
+          color: COLORS.white,
+          marginTop: 10,
+        }}
+      >
+        No posts yet
+      </Text>
     </View>
   );
 }
 
 export default function ProfileScreen() {
+  const router = useRouter();
+
   const { signOut, userId } = useAuth();
+
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<Doc<"posts"> | null>(null);
+
+  const [selectedPost, setSelectedPost] =
+    useState<Doc<"posts"> | null>(null);
 
   const currentUser = useQuery(
     api.users.getUserByClerkId,
@@ -56,28 +75,60 @@ export default function ProfileScreen() {
   });
 
   const handleSaveProfile = async () => {
-    await updateProfile(editedProfile);
-    setIsEditModalVisible(false);
+    try {
+      await updateProfile(editedProfile);
+
+      setIsEditModalVisible(false);
+    } catch (error) {
+      console.log("Update profile error:", error);
+    }
   };
 
-  if (!currentUser || posts === undefined) return <Loader />;
+  if (!currentUser || posts === undefined) {
+    return <Loader />;
+  }
 
   return (
     <View style={styles.container}>
+      {/* HEADER */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.username}>{currentUser.username}</Text>
+          <Text style={styles.username}>
+            {currentUser.username}
+          </Text>
         </View>
+
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerIcon} onPress={() => signOut()}>
-            <Ionicons name="log-out-outline" size={24} color={COLORS.white} />
+          {/* CHAT BUTTON */}
+          <TouchableOpacity
+            style={styles.headerIcon}
+            onPress={() => router.push("/chat")}
+          >
+            <Ionicons
+              name="chatbubble-ellipses-outline"
+              size={24}
+              color={COLORS.white}
+            />
+          </TouchableOpacity>
+
+          {/* LOGOUT BUTTON */}
+          <TouchableOpacity
+            style={styles.headerIcon}
+            onPress={() => signOut()}
+          >
+            <Ionicons
+              name="log-out-outline"
+              size={24}
+              color={COLORS.white}
+            />
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
+        {/* PROFILE INFO */}
         <View style={styles.profileInfo}>
-          {/* Avatar and Stats */}
+          {/* AVATAR + STATS */}
           <View style={styles.avatarAndStats}>
             <View style={styles.avatarContainer}>
               <Image
@@ -90,40 +141,70 @@ export default function ProfileScreen() {
 
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{currentUser.posts}</Text>
-                <Text style={styles.statLabel}>Posts</Text>
+                <Text style={styles.statNumber}>
+                  {currentUser.posts}
+                </Text>
+
+                <Text style={styles.statLabel}>
+                  Posts
+                </Text>
               </View>
+
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{currentUser.followers}</Text>
-                <Text style={styles.statLabel}>Followers</Text>
+                <Text style={styles.statNumber}>
+                  {currentUser.followers}
+                </Text>
+
+                <Text style={styles.statLabel}>
+                  Followers
+                </Text>
               </View>
+
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{currentUser.following}</Text>
-                <Text style={styles.statLabel}>Following</Text>
+                <Text style={styles.statNumber}>
+                  {currentUser.following}
+                </Text>
+
+                <Text style={styles.statLabel}>
+                  Following
+                </Text>
               </View>
             </View>
           </View>
 
-          {/* Name and Bio */}
-          <Text style={styles.name}>{currentUser.fullname}</Text>
-          {currentUser.bio && <Text style={styles.bio}>{currentUser.bio}</Text>}
+          {/* NAME + BIO */}
+          <Text style={styles.name}>
+            {currentUser.fullname}
+          </Text>
 
-          {/* Action Buttons */}
+          {currentUser.bio && (
+            <Text style={styles.bio}>
+              {currentUser.bio}
+            </Text>
+          )}
+
+          {/* ACTION BUTTONS */}
           <View style={styles.actionButtons}>
             <TouchableOpacity
               style={styles.editButton}
               onPress={() => setIsEditModalVisible(true)}
             >
-              <Text style={styles.editButtonText}>Edit Profile</Text>
+              <Text style={styles.editButtonText}>
+                Edit Profile
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.shareButton}>
-              <Ionicons name="share-outline" size={20} color={COLORS.white} />
+              <Ionicons
+                name="share-outline"
+                size={20}
+                color={COLORS.white}
+              />
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Posts Grid */}
+        {/* POSTS GRID */}
         {posts.length === 0 && <NoPostsFound />}
 
         <FlatList
@@ -147,25 +228,31 @@ export default function ProfileScreen() {
         />
       </ScrollView>
 
-      {/* SELECTED IMAGE MODAL */}
+      {/* SELECTED POST MODAL */}
       <Modal
         visible={!!selectedPost}
         animationType="fade"
-        transparent={true}
+        transparent
         onRequestClose={() => setSelectedPost(null)}
       >
         <View style={styles.modalBackdrop}>
           {selectedPost && (
             <View style={styles.postDetailContainer}>
               <View style={styles.postDetailHeader}>
-                <TouchableOpacity onPress={() => setSelectedPost(null)}>
-                  <Ionicons name="close" size={24} color={COLORS.white} />
+                <TouchableOpacity
+                  onPress={() => setSelectedPost(null)}
+                >
+                  <Ionicons
+                    name="close"
+                    size={24}
+                    color={COLORS.white}
+                  />
                 </TouchableOpacity>
               </View>
 
               <Image
                 source={selectedPost.imageUrl}
-                cachePolicy={"memory-disk"}
+                cachePolicy="memory-disk"
                 style={styles.postDetailImage}
               />
             </View>
@@ -177,40 +264,71 @@ export default function ProfileScreen() {
       <Modal
         visible={isEditModalVisible}
         animationType="slide"
-        transparent={true}
-        onRequestClose={() => setIsEditModalVisible(false)}
+        transparent
+        onRequestClose={() =>
+          setIsEditModalVisible(false)
+        }
       >
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={
+            Platform.OS === "ios"
+              ? "padding"
+              : "height"
+          }
           style={styles.modalContainer}
         >
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Edit Profile</Text>
-              <TouchableOpacity onPress={() => setIsEditModalVisible(false)}>
-                <Ionicons name="close" size={24} color={COLORS.white} />
+              <Text style={styles.modalTitle}>
+                Edit Profile
+              </Text>
+
+              <TouchableOpacity
+                onPress={() =>
+                  setIsEditModalVisible(false)
+                }
+              >
+                <Ionicons
+                  name="close"
+                  size={24}
+                  color={COLORS.white}
+                />
               </TouchableOpacity>
             </View>
 
+            {/* NAME INPUT */}
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Name</Text>
+              <Text style={styles.inputLabel}>
+                Name
+              </Text>
+
               <TextInput
                 style={styles.input}
                 value={editedProfile.fullname}
                 onChangeText={(text) =>
-                  setEditedProfile((prev) => ({ ...prev, fullname: text }))
+                  setEditedProfile((prev) => ({
+                    ...prev,
+                    fullname: text,
+                  }))
                 }
                 placeholderTextColor={COLORS.grey}
               />
             </View>
 
+            {/* BIO INPUT */}
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Bio</Text>
+              <Text style={styles.inputLabel}>
+                Bio
+              </Text>
+
               <TextInput
                 style={[styles.input, styles.bioInput]}
                 value={editedProfile.bio}
                 onChangeText={(text) =>
-                  setEditedProfile((prev) => ({ ...prev, bio: text }))
+                  setEditedProfile((prev) => ({
+                    ...prev,
+                    bio: text,
+                  }))
                 }
                 multiline
                 numberOfLines={4}
@@ -218,11 +336,14 @@ export default function ProfileScreen() {
               />
             </View>
 
+            {/* SAVE BUTTON */}
             <TouchableOpacity
               style={styles.saveButton}
               onPress={handleSaveProfile}
             >
-              <Text style={styles.saveButtonText}>Save Changes</Text>
+              <Text style={styles.saveButtonText}>
+                Save Changes
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
