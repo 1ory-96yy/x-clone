@@ -1,19 +1,36 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { styles } from "@/styles/feed.styles";
-type Props = {
+
+type StoryUser = {
+  id: string;
   username: string;
-  image: string;
+  avatar: string;
+  hasStory: boolean;
 };
 
-export default function Story({ username, image }: Props) {
+type Props = {
+  story: StoryUser;
+  onPress?: () => void;
+};
+
+export default function Story({ story, onPress }: Props) {
   return (
-    <View style={styles.storyWrapper}>
-      <View style={[styles.storyRing, styles.storyRingActive]}>
-        <Image source={image} style={styles.storyAvatar} />
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.storyWrapper}
+      activeOpacity={0.8}
+    >
+      <View
+        style={[
+          styles.storyRing,
+          story.hasStory ? styles.storyRingActive : styles.storyRingInactive,
+        ]}
+      >
+        <Image source={{ uri: story.avatar }} style={styles.storyAvatar} />
       </View>
 
-      <Text style={styles.storyUsername}>{username}</Text>
-    </View>
+      <Text style={styles.storyUsername}>{story.username}</Text>
+    </TouchableOpacity>
   );
 }

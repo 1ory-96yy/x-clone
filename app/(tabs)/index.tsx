@@ -9,18 +9,16 @@ import { useAuth } from "@clerk/clerk-expo";
 import { useQuery, useConvexAuth } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Post from "../../components/Post";
+import StoriesSection from "@/components/StoriesSection";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
   const { isAuthenticated } = useConvexAuth();
   const posts = useQuery(api.posts.getPosts);
 
-  
-
   if (!isAuthenticated) {
     return <Text style={styles.message}>Please login in...</Text>;
   }
-
 
   return (
     <View style={styles.container}>
@@ -33,6 +31,8 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Sign out</Text>
         </TouchableOpacity>
       </View>
+
+      <StoriesSection />
 
       {posts === undefined ? (
         <Text style={styles.message}>Loading posts...</Text>
