@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useQuery } from "convex/react";
 import { useRouter } from "expo-router";
-import { useUser } from "@clerk/expo";
+import { useUser } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { api } from "@/convex/_generated/api";
 

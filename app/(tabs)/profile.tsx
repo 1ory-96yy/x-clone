@@ -102,7 +102,7 @@ export default function ProfileScreen() {
           {/* CHAT BUTTON */}
           <TouchableOpacity
             style={styles.headerIcon}
-            onPress={() => router.push("/chat")}
+            onPress={() => router.push("/chats")}
           >
             <Ionicons
               name="chatbubble-ellipses-outline"
