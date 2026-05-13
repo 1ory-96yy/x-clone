@@ -186,4 +186,27 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "SpaceMono-Regular",
   },
+  //StoryStyles
+  addWrapper: {
+    alignItems: "center",
+    marginHorizontal: 8,
+    width: 72,
+  },
+  addRing: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    borderStyle: "dashed",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 4,
+    backgroundColor: COLORS.surface,
+  },
+  addLabel: {
+    fontSize: 11,
+    color: COLORS.white,
+    textAlign: "center",
+  },
 });
