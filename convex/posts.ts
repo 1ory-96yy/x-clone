@@ -209,3 +209,50 @@ export const getPostsByUser = query({
     return posts;
   },
 });
+
+export const getPostById = query({
+  args: {
+    postId: v.id("posts"),
+  },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId);
+    if (!post) throw new Error("Post not found");
+
+    const author = await ctx.db.get(post.userId);
+    if (!author) throw new Error("Author not found");
+
+    const currentUser = await getAuthenticatedUser(ctx);
+    
+    let isLiked = false;
+    let isBookmarked = false;
+
+    if (currentUser) {
+      const like = await ctx.db
+        .query("likes")
+        .withIndex("by_user_and_post", (q) =>
+          q.eq("userId", currentUser._id).eq("postId", args.postId),
+        )
+        .first();
+      isLiked = !!like;
+
+      const bookmark = await ctx.db
+        .query("bookmarks")
+        .withIndex("by_both", (q) =>
+          q.eq("userId", currentUser._id).eq("postId", args.postId),
+        )
+        .first();
+      isBookmarked = !!bookmark;
+    }
+
+    return {
+      ...post,
+      author: {
+        _id: author?._id,
+        username: author?.username,
+        image: author?.image,
+      },
+      isLiked,
+      isBookmarked,
+    };
+  },
+});

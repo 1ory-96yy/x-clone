@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginBottom: 4,
+    color: "#fff",
   },
   date: {
     fontSize: 12,

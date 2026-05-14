@@ -10,6 +10,7 @@ import { useQuery, useConvexAuth } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Post from "../../components/Post";
 import StoriesSection from "@/components/StoriesSection";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
@@ -21,7 +22,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>Developer Feed</Text>
@@ -47,7 +48,7 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
