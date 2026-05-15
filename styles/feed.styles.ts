@@ -189,24 +189,33 @@ export const styles = StyleSheet.create({
   //StoryStyles
   addWrapper: {
     alignItems: "center",
-    marginHorizontal: 8,
-    width: 72,
+    marginRight: 16,
+    width: 70,
   },
+
   addRing: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     borderWidth: 2,
     borderColor: COLORS.primary,
     borderStyle: "dashed",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 4,
-    backgroundColor: COLORS.surface,
+    backgroundColor: COLORS.surfaceLight,
   },
+
+  addPlus: {
+    fontSize: 30,
+    lineHeight: 34,
+    fontWeight: "700",
+    color: COLORS.primary,
+  },
+
   addLabel: {
-    fontSize: 11,
+    fontSize: 12,
     color: COLORS.white,
+    marginTop: 4,
     textAlign: "center",
   },
 });

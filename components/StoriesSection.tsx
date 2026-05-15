@@ -102,7 +102,7 @@ export default function StoriesSection() {
     >
       <TouchableOpacity style={styles.addWrapper} onPress={handleCreateStory}>
         <View style={styles.addRing}>
-          <Text style={styles.addLabel}>+</Text>
+          <Text style={styles.addPlus}>+</Text>
         </View>
         <Text style={styles.addLabel}>Add Story</Text>
       </TouchableOpacity>
