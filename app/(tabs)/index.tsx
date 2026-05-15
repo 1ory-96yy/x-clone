@@ -1,50 +1,85 @@
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   FlatList,
+  StyleSheet,
 } from "react-native";
 import { useAuth } from "@clerk/clerk-expo";
 import { useQuery, useConvexAuth } from "convex/react";
+
 import { api } from "@/convex/_generated/api";
-import Post from "../../components/Post";
+import { COLORS } from "@/constants/theme";
+
+import Post from "@/components/Post";
 import StoriesSection from "@/components/StoriesSection";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
   const { isAuthenticated } = useConvexAuth();
+
   const posts = useQuery(api.posts.getPosts);
 
   if (!isAuthenticated) {
-    return <Text style={styles.message}>Please login in...</Text>;
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.message}>
+          Please login in...
+        </Text>
+      </View>
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Developer Feed</Text>
-          <Text style={styles.subtitle}>Latest posts from the community</Text>
+          <Text style={styles.title}>
+            Developer Feed
+          </Text>
+
+          <Text style={styles.subtitle}>
+            Latest posts from the community
+          </Text>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => signOut()}>
-          <Text style={styles.buttonText}>Sign out</Text>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => signOut()}
+        >
+          <Text style={styles.buttonText}>
+            Sign out
+          </Text>
         </TouchableOpacity>
       </View>
 
       <StoriesSection />
 
       {posts === undefined ? (
-        <Text style={styles.message}>Loading posts...</Text>
+        <View style={styles.centerContainer}>
+          <Text style={styles.message}>
+            Loading posts...
+          </Text>
+        </View>
       ) : posts.length === 0 ? (
-        <Text style={styles.message}>No posts yet. Create the first one!</Text>
+        <View style={styles.centerContainer}>
+          <Text style={styles.message}>
+            No posts yet. Create the first one!
+          </Text>
+        </View>
       ) : (
         <FlatList
           data={posts}
-          keyExtractor={(item) => item._id.toString()}
-          renderItem={({ item }) => <Post post={item} />}
-          contentContainerStyle={styles.listContent}
+          keyExtractor={(item) =>
+            item._id.toString()
+          }
+          renderItem={({ item }) => (
+            <Post post={item} />
+          )}
+          contentContainerStyle={
+            styles.listContent
+          }
           showsVerticalScrollIndicator={false}
         />
       )}
@@ -55,66 +90,70 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    backgroundColor: COLORS.background,
   },
+
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 20,
-    color: "#fff",
+    paddingHorizontal: 20,
+    paddingTop: 60,
+    paddingBottom: 16,
+    backgroundColor: COLORS.surface,
+    borderBottomWidth: 1,
+    borderBottomColor:
+      COLORS.surfaceLight,
   },
+
   title: {
     fontSize: 28,
-    color: "#000",
-    fontFamily: "JetBrainsMono-Medium",
+    color: COLORS.white,
+    fontFamily:
+      "JetBrainsMono-Medium",
     marginBottom: 4,
   },
+
   subtitle: {
-    color: "#d1d5db",
+    color: COLORS.grey,
     fontSize: 14,
-    fontFamily: "SpaceMono-Regular",
+    fontFamily:
+      "SpaceMono-Regular",
   },
+
   button: {
-    backgroundColor: "#1DA1F2",
+    backgroundColor:
+      COLORS.primary,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    borderRadius: 10,
+    borderRadius: 12,
   },
+
   buttonText: {
-    color: "#fff",
-    fontFamily: "JetBrainsMono-Medium",
+    color: COLORS.white,
+    fontFamily:
+      "JetBrainsMono-Medium",
     fontSize: 14,
   },
+
   listContent: {
     paddingBottom: 24,
   },
+
+  centerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor:
+      COLORS.background,
+  },
+
   message: {
-    color: "#d1d5db",
+    color: COLORS.grey,
     fontSize: 16,
     textAlign: "center",
-    marginTop: 40,
-  },
-  item: {
-    backgroundColor: "#111827",
-    borderRadius: 16,
-    padding: 18,
-  },
-  itemTitle: {
-    fontSize: 18,
-    color: "#fff",
-    fontFamily: "JetBrainsMono-Medium",
-    marginBottom: 6,
-  },
-  itemSubtitle: {
-    color: "#9ca3af",
-    fontSize: 14,
-    lineHeight: 20,
-    fontFamily: "SpaceMono-Regular",
-  },
-  separator: {
-    height: 12,
+    marginTop: 20,
+    fontFamily:
+      "SpaceMono-Regular",
   },
 });
