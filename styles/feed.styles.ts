@@ -187,16 +187,30 @@ export const styles = StyleSheet.create({
     fontFamily: "SpaceMono-Regular",
   },
   //StoryStyles
+  storiesOuter: {
+    height: 96,
+    backgroundColor: COLORS.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.surfaceLight,
+    justifyContent: "center",
+  },
+
+  storiesContent: {
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+
   addWrapper: {
     alignItems: "center",
-    marginRight: 16,
+    justifyContent: "center",
+    marginRight: 18,
     width: 70,
   },
 
   addRing: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     borderWidth: 2,
     borderColor: COLORS.primary,
     borderStyle: "dashed",
@@ -206,16 +220,9 @@ export const styles = StyleSheet.create({
   },
 
   addPlus: {
-    fontSize: 30,
-    lineHeight: 34,
+    fontSize: 32,
+    lineHeight: 36,
     fontWeight: "700",
     color: COLORS.primary,
-  },
-
-  addLabel: {
-    fontSize: 12,
-    color: COLORS.white,
-    marginTop: 4,
-    textAlign: "center",
   },
 });

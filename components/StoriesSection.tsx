@@ -95,21 +95,22 @@ export default function StoriesSection() {
   }
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.storiesContainer}
-    >
-      <TouchableOpacity style={styles.addWrapper} onPress={handleCreateStory}>
-        <View style={styles.addRing}>
-          <Text style={styles.addPlus}>+</Text>
-        </View>
-        <Text style={styles.addLabel}>Add Story</Text>
-      </TouchableOpacity>
+    <View style={styles.storiesOuter}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.storiesContent}
+      >
+        <TouchableOpacity style={styles.addWrapper} onPress={handleCreateStory}>
+          <View style={styles.addRing}>
+            <Text style={styles.addPlus}>+</Text>
+          </View>
+        </TouchableOpacity>
 
-      {stories.map((story) => (
-        <StoryWithViewer key={story.id} story={story} />
-      ))}
-    </ScrollView>
+        {stories.map((story) => (
+          <StoryWithViewer key={story.id} story={story} />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
