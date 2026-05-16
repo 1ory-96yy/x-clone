@@ -5,14 +5,16 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  StyleSheet,
 } from "react-native";
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { styles } from "@/styles/feed.styles";
-import { COLORS } from "@/constants/theme";
 import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import { useUser } from "@clerk/clerk-expo";
 import Story from "./Story";
 import { StoryViewerModal } from "./StoryViewerModal";
 
@@ -27,7 +29,7 @@ function StoryWithViewer({ story }: { story: StoryUser }) {
   const [viewerOpen, setViewerOpen] = useState(false);
   const userStories = useQuery(
     api.stories.getStoriesByUser,
-    story.hasStory ? { userId: story.id as Id<"users"> } : "skip",
+    story.hasStory ? { userId: story.id as Id<"users"> } : "skip"
   );
 
   const handlePress = () => {
@@ -52,6 +54,7 @@ function StoryWithViewer({ story }: { story: StoryUser }) {
 }
 
 export default function StoriesSection() {
+  const { user } = useUser(); 
   const stories = useQuery(api.users.getStoriesUsers);
   const generateUploadUrl = useMutation(api.stories.generateUploadUrl);
   const createStory = useMutation(api.stories.createStory);
@@ -88,23 +91,41 @@ export default function StoriesSection() {
 
   if (stories === undefined) {
     return (
-      <View style={styles.storiesContainer}>
-        <ActivityIndicator size="small" color={COLORS.primary} />
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="small" color="#1d9bf0" />
       </View>
     );
   }
 
   return (
-    <View style={styles.storiesOuter}>
+    <View style={styles.container}>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.storiesContent}
+        contentContainerStyle={styles.scrollContent}
       >
-        <TouchableOpacity style={styles.addWrapper} onPress={handleCreateStory}>
-          <View style={styles.addRing}>
-            <Text style={styles.addPlus}>+</Text>
+        <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress={handleCreateStory} 
+          style={styles.addStoryItem}
+        >
+          <View style={styles.avatarWrapper}>
+            {user?.imageUrl ? (
+              <Image 
+                source={{ uri: user.imageUrl }} 
+                style={styles.currentUserAvatar} 
+              />
+            ) : (
+              <View style={styles.fallbackAvatar}>
+                <Ionicons name="person" size={32} color="#555" />
+              </View>
+            )}
+            
+            <View style={styles.plusBadge}>
+              <Ionicons name="add" size={16} color="#fff" />
+            </View>
           </View>
+          <Text style={styles.addLabel}>Your story</Text>
         </TouchableOpacity>
 
         {stories.map((story) => (
@@ -114,3 +135,70 @@ export default function StoriesSection() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#000",
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#333",
+    paddingVertical: 12,
+  },
+  scrollContent: {
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
+  loaderContainer: {
+    height: 110,
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#333",
+  },
+  addStoryItem: {
+    alignItems: "center",
+    marginRight: 10,
+    width: 68,
+  },
+  avatarWrapper: {
+    width: 60,
+    height: 60,
+    position: "relative",
+  },
+  currentUserAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: "#333",
+  },
+  fallbackAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#222",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#333",
+  },
+  plusBadge: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "#1d9bf0",
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#000",
+  },
+  addLabel: {
+    color: "#71767b",
+    fontSize: 11,
+    marginTop: 6,
+    fontWeight: "500",
+  },
+});

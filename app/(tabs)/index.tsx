@@ -4,19 +4,23 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
-import { useAuth } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import { useQuery, useConvexAuth } from "convex/react";
+import { Image } from "expo-image";
+import { Ionicons } from "@expo/vector-icons";
 
 import { api } from "@/convex/_generated/api";
-import { COLORS } from "@/constants/theme";
-
 import Post from "@/components/Post";
 import StoriesSection from "@/components/StoriesSection";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Link } from "expo-router";
+import { COLORS } from "@/constants/theme";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
+  const { user } = useUser();
   const { isAuthenticated } = useConvexAuth();
 
   const posts = useQuery(api.posts.getPosts);
@@ -24,66 +28,46 @@ export default function HomeScreen() {
   if (!isAuthenticated) {
     return (
       <View style={styles.centerContainer}>
-        <Text style={styles.message}>
-          Please login in...
-        </Text>
+        <ActivityIndicator size="large" color="#1d9bf0" />
+        <Text style={styles.message}>Please login to join the conversation</Text>
       </View>
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* HEADER */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>
-            Developer Feed
-          </Text>
+        <Link href="/profile" style={styles.headerLeft}>
+          <Image 
+            source={user?.imageUrl} 
+            style={styles.headerAvatar} 
+          />
+        </Link>
 
-          <Text style={styles.subtitle}>
-            Latest posts from the community
-          </Text>
-        </View>
+        <Text style={styles.headerTitle}>Feeds</Text>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => signOut()}
-        >
-          <Text style={styles.buttonText}>
-            Sign out
-          </Text>
+        <TouchableOpacity style={styles.headerRight} onPress={() => signOut()}>
+          <Ionicons name="log-out-outline" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
-      <StoriesSection />
-
-      <View style={{ height: 12 }} />
-      {posts === undefined ? (
-        <View style={styles.centerContainer}>
-          <Text style={styles.message}>
-            Loading posts...
-          </Text>
-        </View>
-      ) : posts.length === 0 ? (
-        <View style={styles.centerContainer}>
-          <Text style={styles.message}>
-            No posts yet. Create the first one!
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={posts}
-          keyExtractor={(item) =>
-            item._id.toString()
-          }
-          renderItem={({ item }) => (
-            <Post post={item} />
-          )}
-          contentContainerStyle={
-            styles.listContent
-          }
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <FlatList
+        data={posts}
+        keyExtractor={(item) => item._id.toString()}
+        ListHeaderComponent={<StoriesSection />}
+        renderItem={({ item }) => <Post post={item} />}
+        ListEmptyComponent={() => (
+          <View style={styles.centerContainer}>
+            {posts === undefined ? (
+              <ActivityIndicator color="#1d9bf0" />
+            ) : (
+              <Text style={styles.message}>No posts yet.</Text>
+            )}
+          </View>
+        )}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
@@ -91,78 +75,59 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: "#000",
   },
-
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-    backgroundColor: COLORS.surface,
-    borderBottomWidth: 1,
-    borderBottomColor:
-      COLORS.surfaceLight,
-  },
-
-  title: {
-    fontSize: 30,
-    letterSpacing: 1,
-    color: COLORS.white,
-    fontFamily:
-      "JetBrainsMono-Medium",
-    marginBottom: 4,
-  },
-
-  subtitle: {
-    color: "#6B7280",
-    fontSize: 13,
-    marginTop: 2,
-  },
-
-  button: {
-    backgroundColor: COLORS.primary,
+    alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 10,
-
-    borderWidth: 1,
-    borderColor: "#4FC3F7",
-
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 5,
+    height: 54, 
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#333",
   },
-
-  buttonText: {
-    color: COLORS.white,
-    fontFamily:
-      "JetBrainsMono-Medium",
-    fontSize: 14,
+  headerTitle: {
+    fontSize: 24,
+    fontFamily: "JetBrainsMono-Medium",
+    color: COLORS.primary,
   },
-
-  listContent: {
-    paddingTop: 12,
-    paddingBottom: 24,
+  headerAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#333",
   },
-
+  headerLeft: {
+    width: 40,
+  },
+  headerRight: {
+    width: 40,
+    alignItems: "flex-end",
+  },
   centerContainer: {
-    flex: 1,
+    paddingTop: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor:
-      COLORS.background,
   },
-
   message: {
-    color: COLORS.grey,
+    color: "#71767b",
     fontSize: 16,
-    textAlign: "center",
-    marginTop: 20,
-    fontFamily:
-      "SpaceMono-Regular",
+    marginTop: 12,
+  },
+  fab: {
+    position: "absolute",
+    right: 16,
+    bottom: 24,
+    backgroundColor: "#1d9bf0",
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });

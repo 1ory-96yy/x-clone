@@ -6,7 +6,7 @@ import { styles } from "@/styles/profile.styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import { Image } from "expo-image";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, Link, Href } from "expo-router"; // Добавил Link и Href
 import {
   View,
   Text,
@@ -54,7 +54,7 @@ export default function UserProfileScreen() {
         otherUserId: profile.clerkId,
       });
 
-      router.push(`/chat/${conversationId}`);
+      router.push(`/chat/${conversationId}` as Href);
     } catch (error) {
       console.log("Message error:", error);
     }
@@ -165,15 +165,17 @@ export default function UserProfileScreen() {
               scrollEnabled={false}
               keyExtractor={(item) => item._id}
               renderItem={({ item }) => (
-                <TouchableOpacity style={styles.gridItem}>
-                  <Image
-                    source={item.imageUrl}
-                    style={styles.gridImage}
-                    contentFit="cover"
-                    transition={200}
-                    cachePolicy="memory-disk"
-                  />
-                </TouchableOpacity>
+                <Link href={`/post/${item._id}` as Href} asChild>
+                  <TouchableOpacity style={styles.gridItem}>
+                    <Image
+                      source={item.imageUrl}
+                      style={styles.gridImage}
+                      contentFit="cover"
+                      transition={200}
+                      cachePolicy="memory-disk"
+                    />
+                  </TouchableOpacity>
+                </Link>
               )}
             />
           )}
