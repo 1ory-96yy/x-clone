@@ -14,6 +14,7 @@ import type * as comments from "../comments.js";
 import type * as http from "../http.js";
 import type * as notifications from "../notifications.js";
 import type * as posts from "../posts.js";
+import type * as search from "../search.js";
 import type * as stories from "../stories.js";
 import type * as users from "../users.js";
 
@@ -30,6 +31,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   notifications: typeof notifications;
   posts: typeof posts;
+  search: typeof search;
   stories: typeof stories;
   users: typeof users;
 }>;

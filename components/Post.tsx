@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { formatDistanceToNow } from "date-fns";
@@ -38,13 +38,14 @@ export default function Post({ post }: PostProps) {
 
   const toggleLike = useMutation(api.posts.toggleLike);
   const toggleBookmark = useMutation(api.bookmarks.toggleBookmark);
+  const deletePost = useMutation(api.posts.deletePost);
 
   const [openComments, setOpenComments] = useState(false);
   const [commentsCount, setCommentsCount] = useState(post.comments || 0);
 
   const isMe = currentUser?._id === post.author._id;
   const profileRoute = (isMe ? "/(tabs)/profile" : `/user/${post.author._id}`) as Href;
-  const postDetailsRoute = `/post/${post._id}` as Href; // Путь к деталям поста
+  const postDetailsRoute = `/post/${post._id}` as Href;
 
   const handleLike = async () => {
     try {
@@ -62,6 +63,27 @@ export default function Post({ post }: PostProps) {
     }
   };
 
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete Post",
+      "Are you sure? This action cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Delete", 
+          style: "destructive", 
+          onPress: async () => {
+            try {
+              await deletePost({ postId: post._id });
+            } catch (error) {
+              console.log("Delete error:", error);
+            }
+          } 
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.leftColumn}>
@@ -73,18 +95,26 @@ export default function Post({ post }: PostProps) {
       </View>
 
       <View style={styles.rightColumn}>
-        <View style={styles.headerRow}>
-          <Link href={profileRoute} asChild>
-            <TouchableOpacity activeOpacity={0.7}>
-              <Text style={styles.username} numberOfLines={1}>
-                {post.author.username}
-              </Text>
+        <View style={styles.topRow}>
+          <View style={styles.userInfo}>
+            <Link href={profileRoute} asChild>
+              <TouchableOpacity activeOpacity={0.7}>
+                <Text style={styles.username} numberOfLines={1}>
+                  {post.author.username}
+                </Text>
+              </TouchableOpacity>
+            </Link>
+            <Text style={styles.dot}>·</Text>
+            <Text style={styles.timestamp}>
+              {formatDistanceToNow(new Date(post.createdAt), { addSuffix: false })}
+            </Text>
+          </View>
+
+          {isMe && (
+            <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+              <Ionicons name="trash-outline" size={18} color="#71767b" />
             </TouchableOpacity>
-          </Link>
-          <Text style={styles.dot}>·</Text>
-          <Text style={styles.timestamp}>
-            {formatDistanceToNow(new Date(post.createdAt), { addSuffix: false })}
-          </Text>
+          )}
         </View>
 
         {!!post.caption && (
@@ -167,10 +197,17 @@ const styles = StyleSheet.create({
   rightColumn: {
     flex: 1,
   },
-  headerRow: {
+  topRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 4,
+  },
+  userInfo: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 2,
+    flex: 1,
+    marginRight: 8,
   },
   username: {
     color: "#fff",
@@ -184,6 +221,9 @@ const styles = StyleSheet.create({
   timestamp: {
     color: "#71767b",
     fontSize: 14,
+  },
+  deleteButton: {
+    padding: 4,
   },
   caption: {
     color: "#fff",
@@ -203,6 +243,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingRight: 12,
+    marginTop: 4,
   },
   actionButton: {
     flexDirection: "row",
