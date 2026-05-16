@@ -29,9 +29,15 @@
 
 ### 08.05.2026
 * **Дьомін Семен (Team Lead / Backend Developer)** – сворив `convex/notifications.ts`, реалізував `getNotifications` query, додав індекс `by_post` для notifications в schema.ts та оновлив `deletePost` для видалення notifications, додав `useConvexAuth` для перевірки автентифікації
-* **Волянський Нікіта (Dependencies Developer)** – реалізував сторінку `app/(tabs)/notifications.tsx` компоненти `NotificationItem` з icon badge та `NoNotificationsFound`
-* **Білоцерковський Дмитро (UI Developer)** - створив `styles/notifications.styles.ts`
-* **Васильківський Артур (Styles Developer)** – реалізував сторінку `app/(tabs)/bookmarks.tsx`, Grid layout для відображення постів, компонент `NoBookmarksFound` та перевірку автентифікації.
+* **Волянський Нікіта (UI Developer)** – реалізував сторінку `app/(tabs)/notifications.tsx` компоненти `NotificationItem` з icon badge та `NoNotificationsFound`
+* **Білоцерковський Дмитро (Styles Developer)** - створив `styles/notifications.styles.ts`
+* **Васильківський Артур (UI Developer)** – реалізував сторінку `app/(tabs)/bookmarks.tsx`, Grid layout для відображення постів, компонент `NoBookmarksFound` та перевірку автентифікації.
+
+### 10.05.2026
+* **Дьомін Семен (Team Lead / Backend Developer)** – створив `getPostsByUser` query в `convex/posts.ts` та `updateProfile` mutation в `convex/users.ts`; `getUserProfile` query в `convex/users.ts`, `isFollowing` query в `convex/users.ts`, `toggleFollow` mutation в `convex/users.ts` та допоміжну функцію `updateFollowCounts`
+* **Волянський Нікіта (UI Developer)** – реалізував FlatList з grid постів, модальні вікна перегляду посту та редагування профілю, `KeyboardAvoidingView` для форми; додав Link у компонент `Post.tsx` для переходу на профіль автора та Link у компонент `NotificationItem.tsx` для переходу на профіль відправника, реалізував умовну навігацію (власний профіль vs інший)
+* **Білоцерковський Дмитро (Styles & UI Developer)** - створив `styles/profile.styles.ts`; реалізував основну структуру `app/user/[id].tsx`, Header з кнопкою "назад" та username, Profile Info з avatar, stats, name, bio; кнопку Follow/Following, Grid постів користувача
+* **Васильківський Артур (UI Developer)** – реалізував основну структуру `app/(tabs)/profile.tsx`, Header з username та logout, Profile Info з avatar, stats, name, bio; Action buttons (Edit Profile, Share); створив `app/user/_layout.tsx` з Stack навігатором, налаштував `headerShown: false`
 
 ## Технології
 

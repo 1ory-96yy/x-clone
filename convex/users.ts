@@ -156,3 +156,57 @@ export const toggleFollow = mutation({
     }
   },
 });
+
+export const getStoriesUsers = query({
+  handler: async (ctx) => {
+    const currentUser = await getAuthenticatedUser(ctx);
+    const now = Date.now();
+
+    const follows = await ctx.db
+      .query("follows")
+      .withIndex("by_follower", (q) => q.eq("followerId", currentUser._id))
+      .collect();
+
+    const followingUsers = await Promise.all(
+      follows.map((f) => ctx.db.get(f.followingId)),
+    );
+
+    const hasActiveStory = async (userId: Id<"users">) => {
+      const story = await ctx.db
+        .query("stories")
+        .withIndex("by_user", (q) => q.eq("userId", userId))
+        .filter((q) => q.gt(q.field("expiresAt"), now))
+        .first();
+      return !!story;
+    };
+
+    const currentUserHasStory = await hasActiveStory(currentUser._id);
+
+    const stories = [
+      {
+        id: currentUser._id,
+        username: "You",
+        avatar: currentUser.image,
+        hasStory: currentUserHasStory,
+      },
+      ...(await Promise.all(
+        followingUsers
+          .filter((user) => user !== null)
+          .map(async (user) => ({
+            id: user!._id,
+            username: user!.username,
+            avatar: user!.image,
+            hasStory: await hasActiveStory(user!._id),
+          })),
+      )),
+    ];
+
+    return stories;
+  },
+});
+
+export const getUsers = query({
+  handler: async (ctx) => {
+    return ctx.db.query("users").collect();
+  }
+})

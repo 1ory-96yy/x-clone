@@ -51,6 +51,8 @@ export const styles = StyleSheet.create({
   },
   storyRingActive: {
     borderColor: COLORS.primary,
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
   },
   storyRingInactive: {
     borderColor: COLORS.grey,
@@ -145,7 +147,7 @@ export const styles = StyleSheet.create({
   },
   bookmarksTitle: {
     fontSize: 28,
-    color: COLORS.white,
+    color: COLORS.primary,
     fontFamily: "JetBrainsMono-Medium",
   },
   bookmarksGridContainer: {
@@ -185,5 +187,46 @@ export const styles = StyleSheet.create({
     color: "#d1d5db",
     textAlign: "center",
     fontFamily: "SpaceMono-Regular",
+  },
+  //StoryStyles
+  storiesOuter: {
+    height: 96,
+    backgroundColor: COLORS.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.surfaceLight,
+    justifyContent: "center",
+  },
+
+  storiesContent: {
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+
+  addWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 18,
+    width: 60,
+
+  },
+
+  addRing: {
+    width: 60,
+    height: 60,
+    marginTop: -20,
+    paddingTop: 8,
+    borderRadius: 32,
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    borderStyle: "dashed",
+    alignItems: "center",
+    backgroundColor: COLORS.surfaceLight,
+  },
+
+  addPlus: {
+    fontSize: 32,
+    lineHeight: 36,
+    fontWeight: "700",
+    color: COLORS.primary,
   },
 });

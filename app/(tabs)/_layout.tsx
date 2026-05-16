@@ -29,6 +29,14 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
+        name="explore"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="search" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="create"
         options={{
           tabBarIcon: ({ color, size }) => (
