@@ -204,3 +204,9 @@ export const getStoriesUsers = query({
     return stories;
   },
 });
+
+export const getUsers = query({
+  handler: async (ctx) => {
+    return ctx.db.query("users").collect();
+  }
+})

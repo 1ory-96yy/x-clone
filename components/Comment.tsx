@@ -1,17 +1,32 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Doc } from "@/convex/_generated/dataModel";
+import { COLORS } from "@/constants/theme";
+
+type CommentWithAuthor = Doc<"comments"> & {
+  author: {
+    username: string;
+  };
+};
 
 type Props = {
-  comment: Doc<"comments">;
+  comment: CommentWithAuthor;
 };
 
 export default function Comment({ comment }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{comment.content}</Text>
+      <View style={styles.header}>
+        <Text style={styles.username}>
+          @{comment.author.username}
+        </Text>
 
-      <Text style={styles.date}>
-        {new Date(comment.createdAt).toLocaleString()}
+        <Text style={styles.date}>
+          {new Date(comment.createdAt).toLocaleString()}
+        </Text>
+      </View>
+
+      <Text style={styles.text}>
+        {comment.content}
       </Text>
     </View>
   );
@@ -19,17 +34,32 @@ export default function Comment({ comment }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.surfaceLight,
   },
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  username: {
+    color: COLORS.primary,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+
   text: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: 15,
     color: "#fff",
+    lineHeight: 22,
   },
+
   date: {
-    fontSize: 12,
-    color: "gray",
+    fontSize: 11,
+    color: COLORS.grey,
   },
 });

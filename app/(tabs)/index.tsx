@@ -56,6 +56,7 @@ export default function HomeScreen() {
 
       <StoriesSection />
 
+      <View style={{ height: 12 }} />
       {posts === undefined ? (
         <View style={styles.centerContainer}>
           <Text style={styles.message}>
@@ -98,8 +99,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 16,
+    paddingTop: 20,
+    paddingBottom: 20,
     backgroundColor: COLORS.surface,
     borderBottomWidth: 1,
     borderBottomColor:
@@ -107,7 +108,8 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 28,
+    fontSize: 30,
+    letterSpacing: 1,
     color: COLORS.white,
     fontFamily:
       "JetBrainsMono-Medium",
@@ -115,18 +117,24 @@ const styles = StyleSheet.create({
   },
 
   subtitle: {
-    color: COLORS.grey,
-    fontSize: 14,
-    fontFamily:
-      "SpaceMono-Regular",
+    color: "#6B7280",
+    fontSize: 13,
+    marginTop: 2,
   },
 
   button: {
-    backgroundColor:
-      COLORS.primary,
+    backgroundColor: COLORS.primary,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    borderRadius: 12,
+    borderRadius: 10,
+
+    borderWidth: 1,
+    borderColor: "#4FC3F7",
+
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
   },
 
   buttonText: {
@@ -137,6 +145,7 @@ const styles = StyleSheet.create({
   },
 
   listContent: {
+    paddingTop: 12,
     paddingBottom: 24,
   },
 

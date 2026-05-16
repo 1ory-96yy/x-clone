@@ -13,6 +13,7 @@ import Comment from "./Comment";
 import { Ionicons } from "@expo/vector-icons";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/clerk-expo";
+import { COLORS } from "@/constants/theme";
 
 type Props = {
   visible: boolean;
@@ -28,6 +29,22 @@ export default function CommentsModal({
   const { user } = useUser();
 
   const comments = useQuery(api.comments.getComments, { postId });
+  const users = useQuery(api.users.getUsers);
+
+  const commentsWithAuthor = comments?.map((comment) => {
+  const author = users?.find(
+    (u) => u._id === comment.userId
+  );
+
+  return {
+    ...comment,
+    author: {
+      username: author?.username ?? "unknown",
+      image: author?.image,
+    },
+  };
+});
+
   const addComment = useMutation(api.comments.addComment);
 
   const [text, setText] = useState("");
@@ -50,7 +67,7 @@ export default function CommentsModal({
 
   return (
     <Modal visible={visible} animationType="slide">
-      <View style={{ flex: 1, padding: 16 }}>
+      <View style={{ flex: 1, padding: 16, backgroundColor: COLORS.background }}>
 
         <View
           style={{
@@ -60,17 +77,17 @@ export default function CommentsModal({
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: COLORS.primary }}>
             Comments
           </Text>
 
           <TouchableOpacity onPress={onClose}>
-            <Ionicons name="close" size={24} />
+            <Ionicons name="close" size={24} style={{color: COLORS.primary }} />
           </TouchableOpacity>
         </View>
 
         <FlatList
-          data={comments || []}
+          data={commentsWithAuthor || []}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => <Comment comment={item} />}
         />
@@ -85,14 +102,14 @@ export default function CommentsModal({
           }}
         >
           <TextInput
-            style={{ flex: 1, padding: 8 }}
+            style={{ flex: 1, padding: 8, marginRight: 30, borderColor: COLORS.white, color: COLORS.white }}
             placeholder="Add a comment..."
             value={text}
             onChangeText={setText}
           />
 
           <TouchableOpacity onPress={handleAdd}>
-            <Text style={{ color: "blue", fontWeight: "bold" }}>
+            <Text style={{ color: COLORS.primary, fontWeight: "bold" }}>
               Send
             </Text>
           </TouchableOpacity>
