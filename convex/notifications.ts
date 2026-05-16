@@ -39,6 +39,7 @@ export const getNotifications = query({
               },
           post: post 
           ? {
+            _id: post._id,
             imageUrl: post.imageUrl
           } : null,
           comment: comment?.content ?? undefined,

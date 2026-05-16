@@ -17,6 +17,7 @@ interface NotificationProps {
       image: string;
     };
     post: {
+      _id: Id<"posts">;
       imageUrl: string;
     } | null;
     comment: string | undefined;
@@ -27,9 +28,7 @@ interface NotificationProps {
 export function NotificationItem({ notification }: NotificationProps) {
   return (
     <View style={styles.notificationItem}>
-      {/* CONTENT */}
       <View style={styles.notificationContent}>
-        {/* Avatar with Icon Badge */}
         <Link href={`/notifications`}>
           <TouchableOpacity style={styles.avatarContainer}>
             <Link href={`/user/${notification.sender._id.toString()}`}>
@@ -52,7 +51,6 @@ export function NotificationItem({ notification }: NotificationProps) {
           </TouchableOpacity>
         </Link>
  
-        {/* Notification Info */}
         <View style={styles.notificationInfo}>
           <Link href={`/user/${notification.sender._id.toString()}`} asChild>
             <TouchableOpacity>
@@ -78,14 +76,17 @@ export function NotificationItem({ notification }: NotificationProps) {
         </View>
       </View>
  
-      {/* Post Image (if exists) */}
       {notification.post && (
+        <Link href={`/post/${notification.post._id.toString()}`} asChild>
+          <TouchableOpacity>
         <Image
           source={notification.post.imageUrl}
           style={styles.postImage}
           contentFit="cover"
           transition={200}
         />
+        </TouchableOpacity>
+        </Link>
       )}
     </View>
   );

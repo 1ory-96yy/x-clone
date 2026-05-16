@@ -147,7 +147,7 @@ export const styles = StyleSheet.create({
   },
   bookmarksTitle: {
     fontSize: 28,
-    color: COLORS.white,
+    color: COLORS.primary,
     fontFamily: "JetBrainsMono-Medium",
   },
   bookmarksGridContainer: {

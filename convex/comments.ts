@@ -41,17 +41,26 @@ export const getComments = query({
   handler: async (ctx, args) => {
     const comments = await ctx.db
       .query("comments")
-      .withIndex("by_post", (q) => q.eq("postId", args.postId))
+      .withIndex("by_post", (q) =>
+        q.eq("postId", args.postId)
+      )
       .collect();
 
-    return await Promise.all(
+    return Promise.all(
       comments.map(async (comment) => {
         const user = await ctx.db.get(comment.userId);
+
         return {
           ...comment,
-          user: { fullname: user!.fullname, image: user!.image },
+          author: user
+            ? {
+                _id: user._id,
+                username: user.username,
+                image: user.image ?? "",
+              }
+            : null,
         };
-      }),
+      })
     );
   },
 });
